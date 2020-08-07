@@ -1,0 +1,25 @@
+{
+  "JWT_SECRET": "asdflkl4893209a9sdfhafh237&*&*54",
+  "DB_HOST": "localhost",
+  "DB_DIALECT": "postgres",
+  "DB_NAME": "sample",
+  "DB_USERNAME": "postgres",
+  "DB_PASSWORD": "1234",
+  "DB_PORT": 5432,
+  "MK_WADO_IMAGE_PATH": "c:/apps/endoplus/images/wado/",
+  "MK_IMAGE_PATH": "c:/apps/endoplus/images/",
+  "MK_PDF_BACKUP_PATH": "c:/apps/endoplus/pdf_backup/",
+  "PDF_PATH": "C:\\apps\\endoplus\\pdf\\",
+  "PDF_BACKUP_PATH": "C:\\apps\\endoplus\\pdf_backup\\",
+  "UNIWEB_RESULT_PATH": "F:\\HIS-RIS\\PDF_RIS\\",
+  "IMAGES_PATH": "C:\\apps\\endoplus\\images\\",
+  "WADO_IMAGES_PATH": "C:\\apps\\endoplus\\images\\wado\\",
+  "DEFAULT_DATA": 30,
+  "SUGGESTION_JSON_PATH": "C:\\apps\\endoplus\\suggestion\\",
+  "SYSTEM_PROPERTIES": {
+    "HOST": "http://localhost",
+    "SERVER_PORT": 5000,
+    "UNIWEB_ADDRESS": "http://192.168.3.2/DicomWeb",
+    "UNIWEB_WADO_ADDRESS": "http://192.168.3.2/DicomWeb/DicomWeb.dll/WADO"
+  }
+}
