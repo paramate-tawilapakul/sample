@@ -4,16 +4,16 @@ const Joi = require('joi')
 
 //const auth = require('../middleware/auth')
 const validateWith = require('../middleware/validation')
-const { login } = require('../controllers/auth')
+const { signin } = require('../controllers/auth')
 
-const schema = {
+const loginSchema = {
   email: Joi.string().email().required(),
-  password: Joi.string().required().min(5),
+  password: Joi.string().required().min(5)
 }
 
 // @route   POST api/auth
 // @desc    Login a user
 // @access  Public
-router.post('/login', validateWith(schema), login)
+router.post('/signin', validateWith(loginSchema), signin)
 
 module.exports = router

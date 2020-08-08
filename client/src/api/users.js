@@ -1,5 +1,5 @@
 import client from './client'
 
-const register = (userInfo) => client.post('/users', userInfo)
+const signup = userInfo => client.post('/users/signup', userInfo)
 
-export default { register }
+export default { signup }

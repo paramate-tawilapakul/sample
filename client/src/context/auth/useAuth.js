@@ -7,16 +7,16 @@ import authStorage from './storage'
 export default () => {
   const { user, setUser } = useContext(AuthContext)
 
-  const logIn = (authToken) => {
-    const user = jwtDecode(authToken)
+  const signIn = authToken => {
+    const { user } = jwtDecode(authToken)
     setUser(user)
     authStorage.storeToken(authToken)
   }
 
-  const logOut = () => {
+  const signOut = () => {
     setUser(null)
     authStorage.removeToken()
   }
 
-  return { user, logIn, logOut }
+  return { user, signIn, signOut }
 }

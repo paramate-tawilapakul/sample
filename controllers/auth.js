@@ -1,24 +1,20 @@
 const bcrypt = require('bcrypt')
-const formidable = require('formidable')
-const path = require('path')
-const fs = require('fs')
-const saltRounds = 10
 const jwt = require('jsonwebtoken')
 const config = require('config')
 
-exports.login = async (req, res) => {
+exports.signin = async (req, res) => {
   const User = require('../models/User')
   const { password } = req.body
   const loginEmail = req.body.email
   try {
     const user = await User.findOne({
       where: {
-        email: loginEmail,
-      },
+        email: loginEmail
+      }
     })
     if (!user)
-      return res.status(404).json({
-        error: 'Authentication failed, email not found',
+      return res.status(400).json({
+        error: 'Email not found'
       })
 
     const {
@@ -28,13 +24,13 @@ exports.login = async (req, res) => {
       lastname,
       profilePic,
       hashPassword,
-      updatedAt,
+      updatedAt
     } = user
 
     bcrypt.compare(password, hashPassword, function (err, result) {
       if (!result)
-        return res.status(401).json({
-          error: 'Authentication failed, wrong password',
+        return res.status(400).json({
+          error: 'Wrong password!'
         })
 
       const user = {
@@ -43,7 +39,7 @@ exports.login = async (req, res) => {
         firstname,
         lastname,
         profilePic,
-        updatedAt,
+        updatedAt
       }
 
       createJwt(user, res)
@@ -60,7 +56,7 @@ async function createJwt(user, res) {
     { expiresIn: '24h' }, // "120ms", "2 days", "10h", "7d"
     (err, token) => {
       return res.json({
-        token,
+        token
       })
     }
   )

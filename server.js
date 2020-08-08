@@ -5,7 +5,9 @@ const morgan = require('morgan')
 const bodyParser = require('body-parser')
 const cors = require('cors')
 const momentTimezone = require('moment-timezone')
-const config = require('config')
+const compression = require('compression')
+//const config = require('config')
+// const db = require('./config/db')
 
 // const { syncDB } = require('./dbTest')
 // syncDB()
@@ -15,6 +17,7 @@ const app = express()
 // Middleware
 app.use(cors())
 app.use(helmet())
+app.use(compression())
 
 morgan.token('date', (req, res, tz) => {
   return momentTimezone().tz('Asia/Bangkok').format('DD/MM/YYYY HH:mm:ss')
@@ -31,6 +34,8 @@ app.use(bodyParser.json({ limit: '100kb' }))
 
 // Define Routes
 app.use('/api/auth', require('./routes/auth'))
+app.use('/api/users', require('./routes/users'))
+app.use('/api/data', require('./routes/data'))
 
 const PORT = 5000
 

@@ -2,20 +2,25 @@ import jwtDecode from 'jwt-decode'
 
 const key = 'authToken'
 
-const storeToken = async (authToken) => {
+const storeToken = authToken => {
   localStorage.setItem(key, authToken)
 }
 
-const getToken = async () => {
-  localStorage.getItem(key)
+const getToken = () => {
+  return localStorage.getItem(key)
 }
 
-const getUser = async () => {
-  const token = await getToken()
-  return token ? jwtDecode(token) : null
+const getUser = () => {
+  const token = getToken()
+
+  if (token) {
+    const { user } = jwtDecode(token)
+    return user
+  }
+  return null
 }
 
-const removeToken = async () => {
+const removeToken = () => {
   localStorage.removeItem(key)
 }
 
