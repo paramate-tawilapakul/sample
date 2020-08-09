@@ -3,50 +3,58 @@ import { withRouter } from 'react-router-dom'
 import * as Yup from 'yup'
 
 import usersApi from '../api/users'
+import useApi from '../hooks/useApi'
 //import useAuth from '../context/auth/useAuth'
 import authStorage from '../context/auth/storage'
 
+// eslint-disable-next-line
 const validationSchema = Yup.object().shape({
   firstname: Yup.string().required().max(50).label('Firstname'),
   lastname: Yup.string().required().max(50).label('Lastname'),
   email: Yup.string().required().email().label('Email'),
-  password: Yup.string().required().min(4).label('Password')
+  password: Yup.string().required().min(4).label('Password'),
 })
 
 function SignUpPage({ history }) {
   if (authStorage.getUser()) history.push('/')
+  const signUpApi = useApi(usersApi.signUp)
+  const [error, setError] = useState(null)
+  const [loading, setLoading] = useState(false)
 
   //const auth = useAuth()
-  const [signupFailed, setSignUpFailed] = useState(false)
 
   const handleSubmit = async ({ firstname, lastname, email, password }) => {
-    const result = await usersApi.signup({
+    setLoading(true)
+    setError(null)
+
+    const { data } = await signUpApi.request({
       firstname,
       lastname,
       email,
-      password
+      password,
     })
-
-    if (!result.ok) {
-      console.log(result.data.error)
-      return setSignUpFailed(true)
+    if (data.error) {
+      setLoading(false)
+      return setError(data.error)
     }
-    console.log(result.data.user)
-    setSignUpFailed(false)
-    //auth.logIn(result.data.token)
-    history.push('/signin')
+
+    setLoading(false)
+    setError(null)
   }
 
   return (
     <>
-      <div>SignIn</div>
+      <div>
+        SignIn {loading && <span>loading...</span>}{' '}
+        {error && <span>{error}</span>}
+      </div>
       <button
         onClick={() => {
           handleSubmit({
-            firstname: 'savittree',
+            firstname: 'paramate',
             lastname: 'tawilapakul',
-            email: 'savittree2@gmail.com',
-            password: '12345'
+            email: 'paramate2.php@gmail.com',
+            password: '12345',
           })
         }}
       >

@@ -6,6 +6,7 @@ import AuthContext from './context/auth/context'
 import authStorage from './context/auth/storage'
 import Header from './components/Header'
 import Home from './pages/Home'
+import Data from './pages/Data'
 import SignIn from './pages/SignIn'
 import SignUp from './pages/SignUp'
 import NotFound from './components/404NotFound'
@@ -30,6 +31,7 @@ function App() {
         <div className='container'>
           <Switch>
             <PrivateRoute exact path='/' component={Home} />
+            <PrivateRoute exact path='/data' component={Data} />
             <Route exact path='/signin' component={SignIn} />
             <Route exact path='/signup' component={SignUp} />
             <Route component={NotFound} />
