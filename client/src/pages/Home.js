@@ -1,11 +1,30 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import socket from '../hooks/useSocket'
 
-function Home() {
+function App() {
+  const [response, setResponse] = useState('')
+
+  function emitMessage(socket) {
+    socket.emit('FromAPI', {
+      msg: 'Hello from react' + Math.random().toString(),
+      userId: 'admin',
+      socketId: socket.id
+    })
+  }
+
+  useEffect(() => {
+    socket.on('FromAPI', data => {
+      setResponse(data)
+    })
+    return () => socket.disconnect()
+  }, [])
+
   return (
-    <>
-      <div>Home</div>
-    </>
+    <p>
+      It's <time dateTime={response}>{response}</time>
+      <button onClick={() => emitMessage(socket)}>send</button>
+    </p>
   )
 }
 
-export default Home
+export default App

@@ -1,3 +1,4 @@
+require('dotenv').config()
 const jwt = require('jsonwebtoken')
 const config = require('config')
 
@@ -14,7 +15,7 @@ module.exports = function (req, res, next) {
         .json({ error: 'Access denied. No token provided.' })
     }
     try {
-      const decoded = jwt.verify(token, config.get('JWT_SECRET'))
+      const decoded = jwt.verify(token, process.env.JWT_SECRET)
       //console.log(decoded)
 
       req.user = decoded.user

@@ -11,8 +11,8 @@ module.exports = {
       // log_file: 'c:/apps/endoplus/logs/combined.log',
       instance_var: 'INSTANCE_ID',
       env: {
-        NODE_ENV: 'production',
-      },
-    },
-  ],
+        NODE_ENV: 'production'
+      }
+    }
+  ]
 }

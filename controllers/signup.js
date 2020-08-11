@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt')
 const saltRounds = 10
 
 exports.signup = async (req, res) => {
-  const User = require('../models/User')
+  const { User } = require('../models')
   const { firstname, lastname, email, password } = req.body
   bcrypt.hash(password, saltRounds, async (err, hashPassword) => {
     try {

@@ -1,11 +1,13 @@
 import { create } from 'apisauce'
 import authStorage from '../context/auth/storage'
 
+export const baseEnpoint = 'http://localhost:5000'
+
 const apiClient = create({
-  baseURL: 'http://localhost:5000/api',
+  baseURL: baseEnpoint + '/api'
 })
 
-apiClient.addAsyncRequestTransform(async (request) => {
+apiClient.addAsyncRequestTransform(async request => {
   const authToken = authStorage.getToken()
   if (!authToken) return
   request.headers['Authorization'] = 'Bearer ' + authToken

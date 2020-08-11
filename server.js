@@ -1,4 +1,6 @@
 const express = require('express')
+const http = require('http')
+const socketIo = require('socket.io')
 const helmet = require('helmet')
 const path = require('path')
 const morgan = require('morgan')
@@ -7,11 +9,7 @@ const cors = require('cors')
 const momentTimezone = require('moment-timezone')
 const compression = require('compression')
 //const config = require('config')
-// const db = require('./config/db')
-
-// const { syncDB } = require('./dbTest')
-// syncDB()
-
+//const models = require('./models')
 const app = express()
 
 // Middleware
@@ -46,10 +44,6 @@ if (process.env.NODE_ENV === 'production') {
   app.get('*', (req, res) =>
     res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
   )
-
-  app.listen(PORT, () =>
-    console.log(`Production Server started on port ${PORT}`)
-  )
 } else {
   if (process.env.SERVER_TYPE === 'dev_test') {
     app.use(express.static('client/build'))
@@ -57,7 +51,43 @@ if (process.env.NODE_ENV === 'production') {
       res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
     )
   }
-  app.listen(PORT, () =>
-    console.log(`Development Server started on port ${PORT}`)
-  )
 }
+
+const server = http.createServer(app)
+
+const io = socketIo(server)
+const clentArr = []
+
+io.on('connection', socket => {
+  console.log('New client connected', socket.id)
+  clentArr.push(socket.id)
+  console.log(clentArr)
+
+  socket.on('disconnect', () => {
+    console.log('Client disconnected', socket.id)
+    // remove id if disconnected
+    clentArr.splice(clentArr.indexOf(socket.id), 1)
+  })
+
+  socket.on('FromAPI', msg => {
+    //console.log('FromAPI', msg, socket.id)
+    //io.to(clentArr[0]).emit('FromAPI', msg)
+    controllerSocket(io, msg, clentArr[0])
+  })
+
+  // socket.emit('FromAPI', () => {
+  //   io.to(clentArr[1]).emit('FromAPI', 'Hello from node.js')
+  // })
+})
+
+function controllerSocket(io, { msg, user, socketId }, id) {
+  io.to(id).emit('FromAPI', msg)
+}
+
+server.listen(PORT, () => console.log(`Server started on port ${PORT}`))
+
+// models.sequelize
+//   .sync({ force: true })
+//   .then(() =>
+//     server.listen(PORT, () => console.log(`Server started on port ${PORT}`))
+//   )

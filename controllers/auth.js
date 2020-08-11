@@ -1,9 +1,10 @@
+require('dotenv').config()
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const config = require('config')
 
 exports.signin = async (req, res) => {
-  const User = require('../models/User')
+  const { User } = require('../models')
   const { password } = req.body
   const loginEmail = req.body.email
   try {
@@ -52,7 +53,7 @@ exports.signin = async (req, res) => {
 async function createJwt(user, res) {
   jwt.sign(
     { user },
-    config.get('JWT_SECRET'),
+    process.env.JWT_SECRET,
     { expiresIn: '24h' }, // "120ms", "2 days", "10h", "7d"
     (err, token) => {
       return res.json({

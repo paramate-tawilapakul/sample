@@ -10,7 +10,7 @@ import authStorage from '../context/auth/storage'
 // eslint-disable-next-line
 const validationSchema = Yup.object().shape({
   email: Yup.string().required().email().label('Email'),
-  password: Yup.string().required().min(4).label('Password'),
+  password: Yup.string().required().min(4).label('Password')
 })
 
 function SignInPage({ history }) {
@@ -46,7 +46,7 @@ function SignInPage({ history }) {
       </div>
       <button
         onClick={() => {
-          handleSubmit({ email: 'paramate.php@gmail.com', password: '12345' })
+          handleSubmit({ email: 'paramate2.php@gmail.com', password: '12345' })
         }}
       >
         sign in
